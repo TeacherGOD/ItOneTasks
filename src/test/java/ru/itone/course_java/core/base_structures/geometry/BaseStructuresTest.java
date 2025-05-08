@@ -1,11 +1,8 @@
-package ru.itone.course_java.core.base_structures;
+package ru.itone.course_java.core.base_structures.geometry;
 
 import org.assertj.core.data.Offset;
-import org.assertj.core.internal.cglib.core.ReflectUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.ReflectionUtils;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import ru.itone.course_java.core.base_structures.BaseStructures;
 
 import java.util.Random;
 
