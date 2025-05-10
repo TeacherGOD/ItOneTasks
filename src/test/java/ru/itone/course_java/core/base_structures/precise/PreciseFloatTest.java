@@ -26,6 +26,26 @@ public class PreciseFloatTest {
     }
 
     @Test
+    void add_SmallFractional() {
+        var w1 = random.nextInt(Integer.MAX_VALUE / 2);
+        var f1 = random.nextInt(1, 1000);
+        var p1 = baseStructures.getPreciseFloat(w1, f1);
+
+        var w2 = random.nextInt(Integer.MAX_VALUE / 2);
+        var f2 = random.nextInt(1, 1000);
+        var p2 = baseStructures.getPreciseFloat(w2, f2);
+
+        var b1 = new BigDecimal("%d.%06d".formatted(w1, f1));
+        var b2 = new BigDecimal("%d.%06d".formatted(w2, f2));
+
+        var r = p1.add(p2);
+        var rb = b1.add(b2);
+
+        assertThat(r != p1 && r != p2).isTrue();
+        assertThat(r.asString()).isEqualTo(rb.toString());
+    }
+
+    @Test
     void add() {
         var w1 = random.nextInt(Integer.MAX_VALUE / 2);
         var f1 = random.nextInt(1_000_000 / 2 + 1, 1_000_000);
@@ -35,8 +55,8 @@ public class PreciseFloatTest {
         var f2 = random.nextInt(1_000_000 / 2 + 1, 1_000_000);
         var p2 = baseStructures.getPreciseFloat(w2, f2);
 
-        var b1 = new BigDecimal(w1 + "." + f1);
-        var b2 = new BigDecimal(w2 + "." + f2);
+        var b1 = new BigDecimal("%d.%06d".formatted(w1, f1));
+        var b2 = new BigDecimal("%d.%06d".formatted(w2, f2));
 
         var r = p1.add(p2);
         var rb = b1.add(b2);
@@ -55,8 +75,8 @@ public class PreciseFloatTest {
         var f2 = random.nextInt(1_000_000 / 2 + 1, 1_000_000);
         var p2 = baseStructures.getPreciseFloat(w2, f2);
 
-        var b1 = new BigDecimal(w1 + "." + f1);
-        var b2 = new BigDecimal(w2 + "." + f2);
+        var b1 = new BigDecimal("%d.%06d".formatted(w1, f1));
+        var b2 = new BigDecimal("%d.%06d".formatted(w2, f2));
 
         var r = p1.subtract(p2);
         var rb = b1.subtract(b2);
@@ -75,8 +95,8 @@ public class PreciseFloatTest {
         var f2 = random.nextInt(1_000_000 / 2 + 1, 1_000_000);
         var p2 = baseStructures.getPreciseFloat(w2, f2);
 
-        var b1 = new BigDecimal(w1 + "." + f1);
-        var b2 = new BigDecimal(w2 + "." + f2);
+        var b1 = new BigDecimal("%d.%06d".formatted(w1, f1));
+        var b2 = new BigDecimal("%d.%06d".formatted(w2, f2));
 
         var r = p1.multiply(p2);
         var rb = b1.multiply(b2);
@@ -95,8 +115,8 @@ public class PreciseFloatTest {
         var f2 = random.nextInt(1_000_000 / 2 + 1, 1_000_000);
         var p2 = baseStructures.getPreciseFloat(w2, f2);
 
-        var b1 = new BigDecimal(w1 + "." + f1);
-        var b2 = new BigDecimal(w2 + "." + f2);
+        var b1 = new BigDecimal("%d.%06d".formatted(w1, f1));
+        var b2 = new BigDecimal("%d.%06d".formatted(w2, f2));
 
         var r = p1.divide(p2);
         var rb = b1.divide(b2, RoundingMode.HALF_UP);
