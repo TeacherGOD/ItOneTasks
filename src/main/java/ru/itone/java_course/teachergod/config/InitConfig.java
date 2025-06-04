@@ -12,7 +12,7 @@ public class InitConfig implements CommandLineRunner {
     private final InitService initService;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
         initService.logSomeText();
     }
 }
