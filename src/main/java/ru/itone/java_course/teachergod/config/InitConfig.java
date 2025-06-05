@@ -14,5 +14,6 @@ public class InitConfig implements CommandLineRunner {
     @Override
     public void run(String... args){
         initService.logSomeText();
+        initService.showOrderInversion();
     }
 }
