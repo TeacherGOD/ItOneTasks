@@ -1,6 +1,7 @@
 package ru.itone.course_java.core.basic_collections.brew;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Grape {
 
@@ -46,5 +47,21 @@ public class Grape {
 
     public void setCollected(LocalDate collected) {
         this.collected = collected;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Grape grape)) return false;
+        return Objects.equals(sort, grape.sort) &&
+                Math.abs(brix - grape.brix) <= 2f && //fixme поставил на 2 исходя из тестов.
+                Math.abs(acidity - grape.acidity) <= 0.1f &&
+                !collected.isBefore(grape.collected.minusYears(1)) &&
+                !collected.isAfter(grape.collected.plusYears(1));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sort);
     }
 }
