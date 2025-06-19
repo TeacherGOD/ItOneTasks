@@ -16,6 +16,7 @@ public class InitConfig implements CommandLineRunner {
     private final ProducerConsumer producerConsumer;
     private final ReentrantLockDemo reentrantLockDemo;
     private final SemaphoreDemo semaphoreDemo;
+    private final CyclicBarrierDemo cyclicBarrierDemo;
 
     @Override
     public void run(String... args){
@@ -25,7 +26,8 @@ public class InitConfig implements CommandLineRunner {
         sharedCounter.init();
         //producerConsumer.init();
         //reentrantLockDemo.init();
-        semaphoreDemo.init();
+        //semaphoreDemo.init();
+        cyclicBarrierDemo.init();
         }
         catch (InterruptedException e){
             log.info(e.getMessage());
