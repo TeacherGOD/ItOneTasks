@@ -67,7 +67,8 @@ class BaseJDBCTest {
     void findByPersonId() {
         UUID personId = UUID.fromString("14a88c98-d710-49ca-99c2-6c3749311b71");
         assertThat(cardDao.findByPersonId(personId))
-                .isEqualTo(new Card(UUID.fromString("263f1d1a-a641-4013-a15f-569615a221e6"), personId, "5555345678901234"));
+                .containsExactlyElementsOf(List.of(new Card(UUID.fromString("263f1d1a-a641-4013-a15f-569615a221e6"), personId, "5555345678901234")));
+        //Добавил обертку в List т.к. findByPersonId возвращает List<Card>
     }
 
     @Test

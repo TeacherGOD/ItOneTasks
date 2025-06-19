@@ -1,8 +1,14 @@
 package ru.itone.course_java.core.base_jdbc;
 
 import lombok.RequiredArgsConstructor;
+import ru.itone.course_java.core.base_jdbc.exceptions.DataAccessException;
 import ru.itone.course_java.core.base_jdbc.model.Card;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +34,19 @@ public class CardDao {
      * @param personId ИД человека
      */
     public List<Card> findByPersonId(UUID personId) {
-        throw new UnsupportedOperationException();
+        final String sql = "SELECT id, person_id, card_number FROM card WHERE person_id = ?";
+
+        try (Connection conn = connection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setObject(1, personId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return mapToCards(rs);
+            }
+
+        } catch (SQLException e) {
+            throw new DataAccessException("Не удалось найти карты по идентификатору человека: " + personId, e);
+        }
     }
 
     /**
@@ -38,6 +56,35 @@ public class CardDao {
      * @param personName Имя человека
      */
     public List<Card> findByPersonName(String personName) {
-        throw new UnsupportedOperationException();
+        final String sql = """
+            SELECT c.id, c.person_id, c.card_number 
+            FROM card c
+            JOIN person p ON c.person_id = p.id
+            WHERE p.name = ?
+            """;
+
+        try (Connection conn = connection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, personName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return mapToCards(rs);
+            }
+
+        } catch (SQLException e) {
+            throw new DataAccessException("Не удалось найти карты по имени человека: " + personName, e);
+        }
+    }
+
+    private List<Card> mapToCards(ResultSet rs) throws SQLException {
+        List<Card> cards = new ArrayList<>();
+        while (rs.next()) {
+            cards.add(new Card(
+                    UUID.fromString(rs.getString("id")),
+                    UUID.fromString(rs.getString("person_id")),
+                    rs.getString("card_number")
+            ));
+        }
+        return cards;
     }
 }
