@@ -17,17 +17,19 @@ public class InitConfig implements CommandLineRunner {
     private final ReentrantLockDemo reentrantLockDemo;
     private final SemaphoreDemo semaphoreDemo;
     private final CyclicBarrierDemo cyclicBarrierDemo;
+    private final CountDownLatchDemo countDownLatchDemo;
 
     @Override
     public void run(String... args){
         try {
 
-        //initService.logSomeText();
-        sharedCounter.init();
-        //producerConsumer.init();
-        //reentrantLockDemo.init();
-        //semaphoreDemo.init();
-        cyclicBarrierDemo.init();
+            //initService.logSomeText();
+            //sharedCounter.init();
+            //producerConsumer.init();
+            //reentrantLockDemo.init();
+            //semaphoreDemo.init();
+            //cyclicBarrierDemo.init();
+            countDownLatchDemo.init();
         }
         catch (InterruptedException e){
             log.info(e.getMessage());
