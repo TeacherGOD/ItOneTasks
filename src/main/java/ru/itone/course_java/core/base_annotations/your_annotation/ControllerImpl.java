@@ -1,5 +1,6 @@
 package ru.itone.course_java.core.base_annotations.your_annotation;
 
+@MethodLogger(enabled = true)
 public class ControllerImpl implements Controller {
 
     @Override
