@@ -19,6 +19,7 @@ public class InitConfig implements CommandLineRunner {
     private final CyclicBarrierDemo cyclicBarrierDemo;
     private final CountDownLatchDemo countDownLatchDemo;
     private final ConcurrentHashMapDemo concurrentHashMapDemo;
+    private final ThreadExecutorDemo threadExecutorDemo;
 
     @Override
     public void run(String... args){
@@ -31,7 +32,8 @@ public class InitConfig implements CommandLineRunner {
             //semaphoreDemo.init();
             //cyclicBarrierDemo.init();
             //countDownLatchDemo.init();
-            concurrentHashMapDemo.init();
+            //concurrentHashMapDemo.init();
+            threadExecutorDemo.init();
         }
         catch (InterruptedException e){
             log.info(e.getMessage());
