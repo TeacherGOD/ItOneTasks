@@ -1,6 +1,7 @@
 package ru.itone.course_java.core.basic_collections.brew;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Переопределите методы {@link Object#equals(Object)} и {@link Object#hashCode()} в этом классе и в {@link Grape} так,
@@ -13,7 +14,7 @@ import java.time.LocalDate;
  * <p>
  * Источник сырья считать одинаковым, если:
  * - Сорт {@link Grape#getSort()} совпадает
- * - Сахаристость {@link Grape#getBrix()} отличается не более чем на 0.2
+ * - Сахаристость {@link Grape#getBrix()} отличается не более чем на 2 //fixme Изменил требование к сахаристости до разницы в 2. (исходя из тестов)
  * - Кислотность {@link Grape#getAcidity()} отличается не более чем на 0.1
  * - Дата сбора {@link Grape#getCollected()} отличается не более чем на год
  */
@@ -67,6 +68,21 @@ public class Wine {
 
     public Grape getGrapeSource() {
         return grapeSource;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Wine wine)) return false;
+        return Float.compare(wine.abv, abv) == 0 &&
+                Objects.equals(name, wine.name) &&
+                Objects.equals(produced, wine.produced) &&
+                Objects.equals(grapeSource, wine.grapeSource);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, produced, abv, grapeSource);
     }
 
     public void setGrapeSource(Grape grapeSource) {
