@@ -18,18 +18,20 @@ public class InitConfig implements CommandLineRunner {
     private final SemaphoreDemo semaphoreDemo;
     private final CyclicBarrierDemo cyclicBarrierDemo;
     private final CountDownLatchDemo countDownLatchDemo;
+    private final ConcurrentHashMapDemo concurrentHashMapDemo;
 
     @Override
     public void run(String... args){
         try {
 
             //initService.logSomeText();
-            //sharedCounter.init();
+            sharedCounter.init();
             //producerConsumer.init();
             //reentrantLockDemo.init();
             //semaphoreDemo.init();
             //cyclicBarrierDemo.init();
-            countDownLatchDemo.init();
+            //countDownLatchDemo.init();
+            concurrentHashMapDemo.init();
         }
         catch (InterruptedException e){
             log.info(e.getMessage());
