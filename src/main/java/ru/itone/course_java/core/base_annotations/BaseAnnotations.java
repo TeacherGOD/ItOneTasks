@@ -1,15 +1,18 @@
 package ru.itone.course_java.core.base_annotations;
 
 import lombok.SneakyThrows;
+
 import ru.itone.course_java.core.base_annotations.model.Profiling;
 import ru.itone.course_java.core.base_annotations.model.Service;
 import ru.itone.course_java.core.base_annotations.your_annotation.Controller;
 import ru.itone.course_java.core.base_annotations.your_annotation.ControllerImpl;
+import ru.itone.course_java.core.base_annotations.your_annotation.MethodLogger;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class BaseAnnotations {
 
@@ -26,7 +29,20 @@ public class BaseAnnotations {
      */
     //@formatter:on
     public List<String> handleAnnotation(List<Service> services) {
-        throw new UnsupportedOperationException();
+        return services.stream()
+                .map(Service::getClass)
+                .filter(aClass -> aClass.isAnnotationPresent(Profiling.class))
+                .map(aClass -> {
+                    Profiling profiling = aClass.getAnnotation(Profiling.class);
+                    if ("DEBUG".equals(profiling.level())) {
+                        var interfaces = Arrays.stream(aClass.getInterfaces())
+                                .map(Class::getSimpleName)
+                                .collect(Collectors.joining(","));
+                        return String.format("Profiling %s implements %s", aClass.getName(), interfaces);
+                    } else {
+                        return "Profiling " + aClass.getSimpleName();
+                    }
+                }).toList();
     }
 
     /**
@@ -37,21 +53,17 @@ public class BaseAnnotations {
      */
     @SneakyThrows
     public Controller logControllerPostRequest(Controller controller) {
-        var controllerClass = controller.getClass();
-        for (Annotation annotation : controllerClass.getAnnotations()) {
-            if (annotation.annotationType().getSimpleName().equals("MethodLogger")) {
-                for (Method annotationField : annotation.getClass().getMethods()) {
-                    if (annotationField.getName().equals("enabled")) {
-                        if ((boolean) annotationField.invoke(annotation)) {
-                            return (Controller) Proxy.newProxyInstance(controllerClass.getClassLoader(), controllerClass.getInterfaces(),
-                                    (proxy, method, args) -> {
-                                        System.out.println("[Log] header: " + args[0] + " body: " + args[1]);
-                                        Object retVal = method.invoke(controller, args);
-                                        return retVal;
-                                    });
-                        }
-                    }
-                }
+        Class<?> aClass = controller.getClass();
+        if (aClass.isAnnotationPresent(MethodLogger.class)) {
+            MethodLogger annotation = aClass.getAnnotation(MethodLogger.class);
+            if (annotation.enabled()) {
+                return (Controller) Proxy.newProxyInstance(
+                        aClass.getClassLoader(),
+                        new Class[]{Controller.class},
+                        (proxy, method, args) -> {
+                            System.out.println(String.format("[Log] header: %s body: %s%n", args[0], args[1]));
+                            return method.invoke(controller, args);
+                        });
             }
         }
         return controller;
