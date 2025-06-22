@@ -57,13 +57,13 @@ public class DocumentValidator {
         if (isResident) {
             if (!number.matches("\\d{6}")) {
                 throw new DocumentValidationException(
-                        String.format("Номер паспорта для граждан должен состоять из 6 цифр, во внутреннем паспорте указан номер: %s", number)
+                        String.format("Номер паспорта для граждан должен состоять из 6 цифр, а для туристов 8 или 10 цифр, во внутреннем паспорте указан номер: %s", number)
                 );
             }
         } else {
             if (!number.matches("\\d{8}|\\d{10}")) {
                 throw new DocumentValidationException(
-                        String.format("Номер паспорта для туристов должен состоять из 8 или 10 цифр, в зарубежном паспорте указан номер: %s", number)
+                        String.format("Номер паспорта для граждан должен состоять из 6 цифр, а для туристов 8 или 10 цифр, в зарубежном паспорте указан номер: %s", number)
                 );
             }
         }
@@ -73,13 +73,13 @@ public class DocumentValidator {
         if (isResident) {
             if (!code.matches("\\d{4}")) {
                 throw new DocumentValidationException(
-                        String.format("Код паспорта для граждан должен состоять из 4 цифр, во внутреннем паспорте указан код: %s", code)
+                        String.format("Код паспорта для граждан должен состоять из 4 цифр, а для туристов быть A,B,C, во внутреннем паспорте указан код: %s", code)
                 );
             }
         } else {
             if (!code.matches("[ABC]")) {
                 throw new DocumentValidationException(
-                        String.format("Код паспорта для туристов должен быть A,B,C, в зарубежном паспорте указан код: %s", code)
+                        String.format("Код паспорта для граждан должен состоять из 4 цифр, а для туристов быть A,B,C, в зарубежном паспорте указан код: %s", code)
                 );
             }
         }
