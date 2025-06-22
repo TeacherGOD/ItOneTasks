@@ -48,7 +48,7 @@ public class PersonValidator {
                 person.getPatronymic(),
                 person.getLastName()
         );
-        for (var name : names)  validateOneName(name);
+        for (var name : names) { validateOneName(name);}
 
         validatePatronymicAndMiddleName(person.getPatronymic(),person.getMiddleName());
 
@@ -75,7 +75,7 @@ public class PersonValidator {
         for (char c : currentName.toCharArray())
             if (!namePattern.matcher(String.valueOf(c)).matches())
                 throw new PersonValidationException(
-                        String.format("ФИО может состоять только из латиницы, кириллицы, пробела, точки, тире, одинарной кавычки и апострофа, символ %s не валидный", c)
+                        String.format("ФИО и Дополнительное Имя может состоять только из латиницы, кириллицы, пробела, точки, тире, одинарной кавычки и апострофа, символ %s не валидный", c)
                 );
     }
 
