@@ -6,8 +6,8 @@ import com.example.notesimple.business.repository.NoteRepository;
 import com.example.notesimple.rest.dto.NoteResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -15,28 +15,30 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
 
-    public NoteResponse createNote(String title, String content) {
+    public Mono<NoteResponse> createNote(String title, String content) {
         Note note = Note.builder()
                 .title(title)
                 .content(content).build();
-        Note savedNote = noteRepository.save(note);
-        return toResponse(savedNote);
+
+        return noteRepository.save(note).map(this::toResponse);
     }
 
-    public NoteResponse updateNote(Long id, String title, String content) {
-        var note =noteRepository.findById(id)
-                .orElseThrow(() -> new NoteNotFoundException(String.format("No note with id: %d",id)));
-        note.setTitle(title);
-        note.setContent(content);
-        noteRepository.save(note   );
-        return toResponse(note);
-
+    public Mono<NoteResponse> updateNote(Long id, String title, String content) {
+        return noteRepository.findById(id)
+                .switchIfEmpty(Mono.error(new NoteNotFoundException(String.format("No note with id: %d",id))))
+                .map(note->{
+                    note.setTitle(title);
+                    note.setContent(content);
+                    return noteRepository.save(note);
+                })
+                .flatMap(mono->
+                        mono.map(this::toResponse));
     }
 
-    public List<NoteResponse> getAllNotes() {
-        return noteRepository.findAll().stream()
+    public Flux<NoteResponse> getAllNotes() {
+        return noteRepository.findAll()
                 .map(note -> new NoteResponse(note.getId(), note.getTitle(), note.getContent()))
-                .toList();
+                ;
     }
 
     private NoteResponse toResponse(Note note) {
