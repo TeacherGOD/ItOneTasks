@@ -8,4 +8,19 @@ public class ClassicalMusic implements Music {
     public String getSong() {
         return "Random Classic Music Song";
     }
+
+    private ClassicalMusic() {}
+
+    public static ClassicalMusic getClassicalMusic() {
+        return new ClassicalMusic();
+    }
+
+    public void doMyInit() {
+        System.out.println("Doing my initialization");
+    }
+
+    public void doMyDestroy() {
+        System.out.println("Doing my destruction");
+    }
+
 }
