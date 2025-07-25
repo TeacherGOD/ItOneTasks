@@ -11,5 +11,8 @@
           class="com.vv.springcore.musicplayer.RockMusic">
 
     </bean>
-
+    <bean id="musicPlayer"
+          class="com.vv.springcore.musicplayer.MusicPlayer">
+        <constructor-arg ref="musicBean"/>
+    </bean>
 </beans>
