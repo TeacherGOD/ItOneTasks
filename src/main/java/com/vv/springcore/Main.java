@@ -1,6 +1,6 @@
 package com.vv.springcore;
 
-import com.vv.springcore.musicplayer.MusicGenre;
+import com.vv.springcore.musicplayer.ClassicalMusic;
 import com.vv.springcore.musicplayer.MusicPlayer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -13,8 +13,13 @@ public class Main {
 
         MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
 
-        musicPlayer.playMusic(MusicGenre.CLASSICAL);
-        musicPlayer.playMusic(MusicGenre.ROCK);
+        System.out.println(musicPlayer.getName());
+        System.out.println(musicPlayer.getVolume());
+
+        ClassicalMusic classicalMusic1 = context.getBean("classicalMusic", ClassicalMusic.class);
+        ClassicalMusic classicalMusic2 = context.getBean("classicalMusic", ClassicalMusic.class);
+
+        System.out.println(classicalMusic1 == classicalMusic2);
 
         context.close();
     }
