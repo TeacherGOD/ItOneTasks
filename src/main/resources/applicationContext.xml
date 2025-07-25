@@ -7,9 +7,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="testBean"
-          class="com.vv.springcore.TestBean">
-        <constructor-arg value="VV"/>
+    <bean id="musicBean"
+          class="com.vv.springcore.musicplayer.RockMusic">
+
     </bean>
 
 </beans>

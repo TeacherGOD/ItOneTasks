@@ -1,5 +1,7 @@
 package com.vv.springcore;
 
+import com.vv.springcore.musicplayer.Music;
+import com.vv.springcore.musicplayer.MusicPlayer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
@@ -8,9 +10,12 @@ public class Main {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
                 "applicationContext.xml"
         );
-        TestBean testBean = context.getBean("testBean", TestBean.class);
 
-        System.out.println(testBean.getName());
+        Music music = context.getBean("musicBean", Music.class);
+
+        MusicPlayer musicPlayer = new MusicPlayer(music);
+
+        musicPlayer.playMusic();
 
         context.close();
     }
