@@ -1,8 +1,6 @@
 package com.vv.springcore;
 
-import com.vv.springcore.musicplayer.ClassicalMusic;
-import com.vv.springcore.musicplayer.Computer;
-import com.vv.springcore.musicplayer.Music;
+import com.vv.springcore.musicplayer.MusicGenre;
 import com.vv.springcore.musicplayer.MusicPlayer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -13,8 +11,10 @@ public class Main {
                 "applicationContext.xml"
         );
 
-        Computer computer = context.getBean("computer", Computer.class);
-        System.out.println(computer);
+        MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
+
+        musicPlayer.playMusic(MusicGenre.CLASSICAL);
+        musicPlayer.playMusic(MusicGenre.ROCK);
 
         context.close();
     }

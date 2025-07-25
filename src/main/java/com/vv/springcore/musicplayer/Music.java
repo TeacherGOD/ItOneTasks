@@ -1,8 +1,10 @@
 package com.vv.springcore.musicplayer;
 
+import java.util.List;
+
 /**
  * @author VV Boss
  */
 public interface Music {
-    String getSong();
+    List<String> getSongs();
 }
