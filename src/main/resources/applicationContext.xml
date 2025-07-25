@@ -14,5 +14,7 @@
     <bean id="musicPlayer"
           class="com.vv.springcore.musicplayer.MusicPlayer">
         <constructor-arg ref="musicBean"/>
+        <property name="name" value="${musicPlayer.name}"/>
+        <property name="volume" value="${musicPlayer.volume}"/>
     </bean>
 </beans>
