@@ -9,8 +9,6 @@ import java.util.List;
 /**
  * @author VV Boss
  */
-@Component
-@Scope("prototype")
 public class ClassicalMusic implements Music {
 
     @PostConstruct

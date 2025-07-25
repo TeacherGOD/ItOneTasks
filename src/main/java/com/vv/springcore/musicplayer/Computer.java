@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 /**
  * @author VV Boss
  */
-@Component
 public class Computer {
     private int id;
     private MusicPlayer musicPlayer;
