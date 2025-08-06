@@ -12,10 +12,18 @@ public class Reservation {
     private Long tableId;
     private LocalDateTime dateTime;
     private int guests;
+    private ReservationStatus status = ReservationStatus.CONFIRMED;
 
     public Reservation(Long tableId, LocalDateTime dateTime, int guests) {
         this.tableId = tableId;
         this.dateTime = dateTime;
         this.guests = guests;
+    }
+
+    public void cancel() {
+        if (this.status != ReservationStatus.CONFIRMED) {
+            throw new IllegalStateException("Cannot cancel non-confirmed reservation");
+        }
+        this.status = ReservationStatus.CANCELLED;
     }
 }
