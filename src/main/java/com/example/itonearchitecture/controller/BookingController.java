@@ -1,28 +1,32 @@
 package com.example.itonearchitecture.controller;
 
-import com.example.itonearchitecture.entity.Reservation;
-import com.example.itonearchitecture.service.BookingService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
+import com.example.itonearchitecture.dto.BookTableRequest;
+import com.example.itonearchitecture.dto.ReservationResponse;
+import com.example.itonearchitecture.use_case.BookTableUseCase;
+import com.example.itonearchitecture.use_case.GetReservationDetailsUseCase;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bookings")
 public class BookingController {
-    private final BookingService bookingService;
+    private final BookTableUseCase bookTableUseCase;
+    private final GetReservationDetailsUseCase getReservationDetailsUseCase;
 
-    public BookingController(BookingService bookingService) {
-        this.bookingService = bookingService;
+    public BookingController(
+            BookTableUseCase bookTableUseCase,
+            GetReservationDetailsUseCase getReservationDetailsUseCase
+    ) {
+        this.bookTableUseCase = bookTableUseCase;
+        this.getReservationDetailsUseCase = getReservationDetailsUseCase;
     }
 
     @PostMapping
-    public Reservation bookTable(
-            @RequestParam Long tableId,
-            @RequestParam LocalDateTime dateTime,
-            @RequestParam int guests) {
-        return bookingService.bookTable(tableId, dateTime, guests);
+    public ReservationResponse bookTable(@RequestBody BookTableRequest request) {
+        return bookTableUseCase.execute(request);
+    }
+
+    @GetMapping("/{id}")
+    public ReservationResponse getReservation(@PathVariable Long id) {
+        return getReservationDetailsUseCase.execute(id);
     }
 }

@@ -22,7 +22,7 @@ public class Reservation {
 
     public void cancel() {
         if (this.status != ReservationStatus.CONFIRMED) {
-            throw new IllegalStateException("Cannot cancel non-confirmed reservation");
+            throw new IllegalStateException("Нельзя отменить бронь, которая уже отменена");
         }
         this.status = ReservationStatus.CANCELLED;
     }
