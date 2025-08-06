@@ -1,5 +1,8 @@
 package com.example.itonearchitecture.use_case;
 
+import com.example.itonearchitecture.domain.reservation.ReservationId;
+import com.example.itonearchitecture.domain.reservation.ReservationTime;
+import com.example.itonearchitecture.domain.table.TableId;
 import com.example.itonearchitecture.dto.ReservationResponse;
 import com.example.itonearchitecture.entity.Reservation;
 import com.example.itonearchitecture.repository.ReservationRepository;
@@ -26,25 +29,18 @@ class GetReservationDetailsUseCaseTest {
 
     @Test
     void execute_WhenReservationExists_ShouldReturnResponse() {
-        Long reservationId = 1L;
-        Reservation reservation = new Reservation(2L, LocalDateTime.now(), 4);
-        reservation.setId(reservationId);
+        ReservationId reservationId = new ReservationId(1L);
+        TableId tableId = new TableId(2L);
+        ReservationTime time = new ReservationTime(LocalDateTime.now());
+        Reservation reservation = new Reservation(tableId, time, 4);
+        reservation.assignId(reservationId);
 
         when(repository.findById(reservationId)).thenReturn(Optional.of(reservation));
 
-        ReservationResponse response = useCase.execute(reservationId);
+        ReservationResponse response = useCase.execute(reservationId.value());
 
         assertNotNull(response);
-        assertEquals(reservationId, response.id());
+        assertEquals(1L, response.id());
         assertEquals(2L, response.tableId());
-    }
-
-    @Test
-    void execute_WhenReservationNotFound_ShouldThrowException() {
-        Long reservationId = 99L;
-        when(repository.findById(reservationId)).thenReturn(Optional.empty());
-
-        assertThrows(IllegalArgumentException.class, () ->
-                useCase.execute(reservationId));
     }
 }

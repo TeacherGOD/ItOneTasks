@@ -1,5 +1,6 @@
 package com.example.itonearchitecture.use_case;
 
+import com.example.itonearchitecture.domain.reservation.ReservationId;
 import com.example.itonearchitecture.dto.ReservationResponse;
 import com.example.itonearchitecture.repository.ReservationRepository;
 
@@ -11,11 +12,11 @@ public class GetReservationDetailsUseCase {
     }
 
     public ReservationResponse execute(Long reservationId) {
-        return repository.findById(reservationId)
+        return repository.findById(new ReservationId(reservationId))
                 .map(reservation -> new ReservationResponse(
-                        reservation.getId(),
-                        reservation.getTableId(),
-                        reservation.getDateTime(),
+                        reservation.getId().value(),
+                        reservation.getTableId().value(),
+                        reservation.getReservationTime().value(), // исправлено
                         reservation.getGuests(),
                         reservation.getStatus()
                 ))
